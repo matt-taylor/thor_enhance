@@ -8,7 +8,6 @@ COPY Gemfile /gem/Gemfile
 COPY thor_enhance.gemspec /gem/thor_enhance.gemspec
 COPY lib/thor_enhance/version.rb /gem/lib/thor_enhance/version.rb
 
-
 RUN gem update --system && gem install bundler && bundle install --jobs=3 --retry=3 && \
     rm -rf /usr/local/bundle/cache
 

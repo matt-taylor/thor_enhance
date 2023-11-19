@@ -1,6 +1,6 @@
 .PHONY: bash build bundle rspec
 
-APP_NAME?=rollday
+APP_NAME?=thor_enhance
 
 build: #: Build the containers that we'll need
 	docker-compose build --pull
