@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require "faraday"
-require "rollday/configuration"
-require "rollday/errors"
-require "rollday/middleware"
-require "rollday/version"
 
 module ThorEnhance
 
