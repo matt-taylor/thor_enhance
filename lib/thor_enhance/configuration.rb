@@ -6,7 +6,7 @@ module ThorEnhance
   class Configuration
 
     # Order is important -- Ensure deoreacte is first
-    HOOKERS = [DEPRECATE = :deprecate, WARNING = :warn, HOOK = :hook]
+    HOOKERS = [DEPRECATE = :deprecate, HOOK = :hook]
 
     class << self
       attr_accessor :allow_changes
@@ -41,8 +41,7 @@ module ThorEnhance
 
     def option_enhance
       @option_enhance ||= {
-        WARNING => { allowed_klasses: [Proc], behavior: :warn, required: false },
-        DEPRECATE => { allowed_klasses: [Proc], behavior: :raise, required: false },
+        DEPRECATE => { allowed_klasses: [Proc], behavior: :request, required: false },
         HOOK => { allowed_klasses: [Proc], behavior: nil, required: false },
       }
     end
@@ -64,6 +63,16 @@ module ThorEnhance
     private
 
     def add_to_variable(storage, methods, name, allowed_klasses, enums, required, repeatable = false)
+      # Reject if the name is not a Symbol or a string
+      if [String, Symbol].none? { _1 === name }
+        raise ArgumentError, "Invalid name type received. Received [#{name}] of type [#{name.class}]. Expected to be of type String or Symbol"
+      end
+
+      # If name contains characters other than upper or lower case letters and _ FAIL
+      unless name =~ /^[A-Za-z_]+$/
+        raise ArgumentError, "Invalid name received. Received [#{name}] does not match /^[A-Za-z_]+$/."
+      end
+
       if methods.include?(name.to_sym)
         raise OptionNotAllowed, "[#{name}] is not allowed as an enhancement"
       end
