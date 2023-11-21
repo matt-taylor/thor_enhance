@@ -13,3 +13,5 @@
 
 # generated gems
 *.gem
+
+spec/examples.txt

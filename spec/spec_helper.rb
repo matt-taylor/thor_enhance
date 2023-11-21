@@ -12,46 +12,51 @@ require 'thor_enhance'
 require 'faker'
 require 'pry'
 
+ThorEnhance.configure do |c|
+  c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "warn", "hook"], required: true
+  c.add_option_enhance "revoke", allowed_klasses: [TrueClass, FalseClass], required: false
+  c.add_command_method_enhance "human_readable", required: true
+  c.add_command_method_enhance "example", repeatable: true
+end
+
+class MyTestClass < Thor
+  class SubCommand < Thor
+    desc "innard", "Innard testing task"
+    example "bin/thor sub innard -t something"
+    method_option :t, type: :string, classify: "allowed"
+    def innard;end;
+  end
+
+  desc "sub", "Submodule command line"
+  human_readable "Subcommand Module"
+  example "bin/thor sub ***"
+  subcommand "sub", SubCommand
+
+  desc "test_meth", "short description"
+  human_readable "Thor Test command"
+  example "bin/thor test_meth"
+  example "bin/thor test_meth --test_meth_option"
+
+  method_option :test_meth_option, type: :boolean, desc: "Tester", classify: "allowed"
+  method_option :option1, type: :boolean, desc: "Option1", classify: "removed", deprecate: ->(v) { "Please migrate to --option3" }
+  method_option :option2, type: :boolean, desc: "Option2", classify: "warn", warn: ->(v) { "Option will be deprecated in next release. Migrate to --option3" }
+  method_option :option3, type: :boolean, desc: "Option3", classify: "hook", hook: ->(v) { Kernel.puts "This is the correct option to use" }
+  def test_meth;end;
+end
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  # rspec-mocks config goes here. You can use an alternate test double
-  # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
-    # Prevents you from mocking or stubbing a method that does not exist on
-    # a real object. This is generally recommended, and will default to
-    # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
 
-  # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
-  # have no way to turn it off -- the option exists only for backwards
-  # compatibility in RSpec 3). It causes shared context metadata to be
-  # inherited by the metadata hash of host groups and examples, rather than
-  # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  # This allows you to limit a spec run to individual examples or groups
-  # you care about by tagging them with `:focus` metadata. When nothing
-  # is tagged with `:focus`, all examples get run. RSpec also provides
-  # aliases for `it`, `describe`, and `context` that include `:focus`
-  # metadata: `fit`, `fdescribe` and `fcontext`, respectively.
   config.filter_run_when_matching :focus
-
-  # Allows RSpec to persist some state between runs in order to support
-  # the `--only-failures` and `--next-failure` CLI options. We recommend
-  # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = "spec/examples.txt"
-
-  # Limits the available syntax to the non-monkey patched syntax that is
-  # recommended. For more details, see:
-  # https://relishapp.com/rspec/rspec-core/docs/configuration/zero-monkey-patching-mode
   config.disable_monkey_patching!
-
-  # This setting enables warnings. It's recommended, but in some cases may
-  # be too noisy due to issues in dependencies.
   config.warnings = true
 
   if config.files_to_run.one?
