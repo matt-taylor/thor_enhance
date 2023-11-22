@@ -51,22 +51,44 @@ RSpec.describe ThorEnhance do
     let(:command) { ThorEnhance::Tree.tree(base: MyTestClass)["test_meth"].command }
 
     context "with deprecate" do
-      it do
-        expect { command.run(instance) }.to raise_error(ThorEnhance::OptionDeprecated, /Passing value for option/)
+      context "with String" do
+        let(:option) { "option1" }
+
+        it do
+          expect { command.run(instance) }.to raise_error(ThorEnhance::OptionDeprecated, /Passing value for option/)
+        end
       end
-    end
 
-    context "with warn" do
-      let(:option) { "option2" }
-      it do
-        expect(Kernel).to receive(:warn).with(/WARNING: Provided/)
+      context "with Hash" do
+        context "when warn" do
+          let(:option) { "option2" }
+          it do
+            expect(Kernel).to receive(:warn).with(/WARNING: Provided/)
 
-        command.run(instance)
+            command.run(instance)
+          end
+        end
+
+        context "when raise" do
+          let(:option) { "option3" }
+
+          it do
+            expect { command.run(instance) }.to raise_error(ThorEnhance::OptionDeprecated, /Passing value for option/)
+          end
+        end
+
+        context "when incorrect keys" do
+          let(:option) { "option5" }
+
+          it do
+            expect { command.run(instance) }.to raise_error(ThorEnhance::OptionDeprecated, /Passing value for option/)
+          end
+        end
       end
     end
 
     context "with hook" do
-      let(:option) { "option3" }
+      let(:option) { "option4" }
       it do
         expect(Kernel).to receive(:puts).with(/This is the correct option to use/)
 

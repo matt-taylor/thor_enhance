@@ -13,7 +13,7 @@ require 'faker'
 require 'pry'
 
 ThorEnhance.configure do |c|
-  c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "warn", "hook"], required: true
+  c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "deprecate", "hook"], required: true
   c.add_option_enhance "revoke", allowed_klasses: [TrueClass, FalseClass], required: false
   c.add_command_method_enhance "human_readable", required: true
   c.add_command_method_enhance "example", repeatable: true
@@ -38,9 +38,11 @@ class MyTestClass < Thor
   example "bin/thor test_meth --test_meth_option"
 
   method_option :test_meth_option, type: :boolean, desc: "Tester", classify: "allowed"
-  method_option :option1, type: :boolean, desc: "Option1", classify: "removed", deprecate: ->(v) { "Please migrate to --option3" }
-  method_option :option2, type: :boolean, desc: "Option2", classify: "warn", warn: ->(v) { "Option will be deprecated in next release. Migrate to --option3" }
-  method_option :option3, type: :boolean, desc: "Option3", classify: "hook", hook: ->(v) { Kernel.puts "This is the correct option to use" }
+  method_option :option1, type: :boolean, desc: "Option1", classify: "deprecate", deprecate: ->(v, option) { "Please migrate to --option4" }
+  method_option :option2, type: :boolean, desc: "Option2", classify: "deprecate", deprecate: ->(v, option) { { raise: false, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }
+  method_option :option3, type: :boolean, desc: "Option3", classify: "deprecate", deprecate: ->(v, option) { { raise: true, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }
+  method_option :option4, type: :boolean, desc: "Option4", classify: "hook", hook: ->(v, option) { Kernel.puts "This is the correct option to use" }
+  method_option :option5, type: :boolean, desc: "Option5", classify: "deprecate", deprecate: ->(v, option) { { warn: "Options Are missing. This will raise" } }
   def test_meth;end;
 end
 
