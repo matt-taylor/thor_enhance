@@ -4,15 +4,15 @@ require "thor"
 
 module ThorEnhance
   class Configuration
-
-    # Order is important -- Ensure deoreacte is first
     HOOKERS = [DEPRECATE = :deprecate, HOOK = :hook]
+    ALLOWED_VALUES = [DEFAULT_ALLOWED = nil, ALLOW_ALL = :all]
 
     class << self
-      attr_accessor :allow_changes
-
       def allow_changes?(raise_error: true)
-        return true if allow_changes.nil?
+        # binding.pry
+
+        return true unless defined?(@@allow_changes)
+        return true if @@allow_changes.nil?
 
         if raise_error
           raise BaseError, "Configuration changes are halted. Unable to change ThorEnhancements"
@@ -22,7 +22,7 @@ module ThorEnhance
       end
 
       def disallow_changes!
-        allow_changes = true
+        @@allow_changes = :prevent
       end
     end
 
@@ -32,11 +32,58 @@ module ThorEnhance
       ThorEnhance::Option.thor_enhance_injection!
       ThorEnhance::Command.thor_enhance_injection!
       ThorEnhance::CommandMethod.thor_enhance_injection!
+
+      ############
+      # Commands #
+      ############
+      # Prepend it so we can call our run method first
+      ::Thor::Command.prepend ThorEnhance::CommandHook
+      ::Thor::Command.include ThorEnhance::Command
+
+      ##################
+      # Command Method #
+      ##################
+      ::Thor.include ThorEnhance::CommandMethod
+
+      ###########
+      # Options #
+      ###########
+      # Must be prepended because we change the arity of the initializer here
+      ::Thor::Option.prepend ThorEnhance::Option
+      ::Thor.include ThorEnhance::Base::BuildOption
+
+      ####################
+      # Other Injections #
+      ####################
+      ::Thor.include ThorEnhance::Base::AllowedKlass
+
       self.class.disallow_changes!
     end
 
     def command_method_enhance
       @command_method_enhance ||= {}
+    end
+
+    def allowed_klasses
+      @klass_procs ||= []
+    end
+
+    def allowed
+      @allowed ||= DEFAULT_ALLOWED
+    end
+
+    def allowed=(value)
+      raise ArgumentError, "Unexpected value for `allowed =`. Given: #{value}. Expected one of #{ALLOWED_VALUES}" unless ALLOWED_VALUES.include?(value)
+
+      @allowed = value
+    end
+
+    def allowed?(klass)
+      return true if allowed == ALLOW_ALL
+      return true if allowed_klasses.include?(klass)
+
+      # At this point, allowed is false and not an includable klass -- dont allow
+      false
     end
 
     def option_enhance
@@ -83,7 +130,12 @@ module ThorEnhance
 
       # if enums is present and not an array
       if !enums.nil? && !enums.is_a?(Array)
-        raise ArgumentError, "Recieved enum of #{enums}. When present, it is expected to be an Array"
+        raise ArgumentError, "Recieved enums with #{enums}. When present, it is expected to be an Array"
+      end
+
+      # if allowed_klasses is present and not an array
+      if !allowed_klasses.nil? && !allowed_klasses.is_a?(Array)
+        raise ArgumentError, "Recieved allowed_klasses with #{allowed_klasses}. When present, it is expected to be an Array"
       end
 
       storage[name.to_sym] = { allowed_klasses: allowed_klasses, enums: enums, required: required, repeatable: repeatable }

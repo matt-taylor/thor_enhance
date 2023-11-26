@@ -11,24 +11,30 @@ module ThorEnhance
       ThorEnhance.configuration.option_enhance.each do |name, object|
         define_method(name) { instance_variable_get("@#{name}") }
       end
-
-      ::Thor::Option.include ThorEnhance::Option
     end
 
-    def initialize(name, options = {})
-      super
+    # Monkey patched initializer
+    # Thor Option initializer only takes (name, options) as arguments
+    # Thor::Option.new is only called from `build_option` which gets monkey patched in thor_enhance/base
+    def initialize(name, options = {}, klass = nil)
+      super(name, options)
 
-      thor_enhance_definitions(options)
+      thor_enhance_definitions(options, klass)
     end
 
-    def thor_enhance_definitions(options)
+    def thor_enhance_definitions(options, klass)
+      return nil unless ThorEnhance.configuration.allowed?(klass)
+
       ThorEnhance.configuration.option_enhance.each do |name, object|
-        if options[name.to_sym].nil? && object[:required]
-          raise RequiredOption, "#{@name} does not have required option #{name}. Please add it to the option"
+        # When disabled, we do not do the required check, if present, it is still required to be a valid option otherwise
+        unless ::Thor.__thor_enhance_definition == ThorEnhance::CommandMethod::ClassMethods::THOR_ENHANCE_DISABLE
+          if options[name.to_sym].nil? && object[:required]
+            raise RequiredOption, "#{@name} does not have required option #{name}. Please add it to the option"
+          end
         end
 
         value = options[name.to_sym]
-        if value.nil? && object[:required] == false
+        if value.nil? # This can be nil here because we have already done a required check
           # no op when it is nil and not required
         elsif !object[:enums].nil?
           unless object[:enums].include?(value)
