@@ -4,16 +4,38 @@ ThorEnhance requires initialization prior to your custom Thor classes loading.
 
 ## How to initialize
 
-ThorEnhance provides several ways to add enforce options have enhancments
+ThorEnhance provides several ways to enforce options on downstream classes.
 
 ### Preferred route
-Whe creating the thor Class, set `thor_enhance_allow!` at the top of the class. This will allow `ThorEnhance` to know that what class to allow and enforce enhancments for
+When creating the Thor Class, set `thor_enhance_allow!` at the top of the class. This will allow `ThorEnhance` to know that what class to allow and enforce enhancments for
 ```ruby
 class Enhance < Thor
   thor_enhance_allow!
   ...
 end
 ```
+
+If you have methods are are not ready to abide by the enformence, No worries. Simple use the enable/disable wrappers.
+
+```ruby
+class Enhance < Thor
+  thor_enhance_allow!
+
+  disable_thor_enhance! do
+    desc task1 # No enhancements are required
+    def task1;end;
+
+    enable_thor_enhance! do
+      desc task2 # All enhancements are required
+      def task2;end;
+    end
+  end
+
+  desc task3 # All enhancements are required
+  def task3;end;
+end
+```
+
 
 ### Alternate route
 When initializing the `ThorEnhance` gem in the configuration, add the following code:
