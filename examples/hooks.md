@@ -33,8 +33,9 @@ require "thor_enhance_config"
 
 VERSION = Gem::Version.new("1.2.3")
 MAX_VERSION = Gem::Version.new("2.0.0")
-class ThorEnhancement < Thor
 
+class ThorEnhancement < Thor
+  thor_enhance_allow!
   dec "test", "Testing method"
   example "thor_cli.rb test --value 'This is rad'"
   example "thor_cli.rb test"

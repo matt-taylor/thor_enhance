@@ -9,8 +9,6 @@ module ThorEnhance
 
     class << self
       def allow_changes?(raise_error: true)
-        # binding.pry
-
         return true unless defined?(@@allow_changes)
         return true if @@allow_changes.nil?
 

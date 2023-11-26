@@ -28,6 +28,7 @@ require "bundler/setup"
 require "thor_enhance_config"
 
 class ThorEnhancement < Thor
+  thor_enhance_allow!
 
   dec "test", "Testing method"
   example "thor_cli.rb test --value 'This is rad'"
@@ -43,6 +44,8 @@ class ThorEnhancement < Thor
   end
 
   class SubCommand < Thor
+    thor_enhance_allow!
+
     desc "sub_command", "Command for SubCommand"
     example "bin/thor sub_command innard -t something -s better"
     example "bin/thor sub_command innard -s better"

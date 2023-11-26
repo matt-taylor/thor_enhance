@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-if ENV['CI'] == 'true'
-  require 'simplecov'
+if ENV["CI"] == "true"
+  require "simplecov"
   # Needs to be loaded prior to application start
   SimpleCov.start do
-    add_filter 'spec/'
+    add_filter "spec/"
   end
 end
 
-require 'thor_enhance'
-require 'faker'
-require 'pry'
+require "thor_enhance"
+require "pry"
 
 ThorEnhance.configure do |c|
   c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "deprecate", "hook"], required: true

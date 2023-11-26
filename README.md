@@ -1,5 +1,8 @@
 # ThorEnhance
 
+`ThorEnhance` enhances thor's capabiltiies. It allows customizable method options and task options.
+
+Additionally it provides hooks into each method option that allows deprecation dynamically.
 
 ## Installation
 
@@ -11,7 +14,32 @@ gem 'thor_enhance'
 
 ## Usage
 
+### Hooks
+Hooks allow you to deprecate, warn, or do some other custimizable action when a user calls thor with the specific option
+
+[Hook documentation](docs/hooks.md)
+[Hook examples](examples/hooks.md)
+
+### Method option Injection
+Method option injection allows you to enhance specific commands. When used inconjunction with [ThorEnhance::Tree](docs/tree.md), the added fields to the method options are avaialable in your code with ease.
+
+[Method option documentation](docs/method_option.md)
+
+
+### Command option Injection
+Command option injection is very powerful. This allows add low level documentation in line with the actual code.
+
+[Command option documentation](docs/command.md)
+
+### [Future Plans] Automatic ReadMe Generation
+The beauty of ThorEnhance is that it forces all your documentation to live with the code. As your code changes, the documentation naturally changes with it.
+
+In the near future, we plan to allow for automatic readme generation based on the enhanced commands provided.
+
+
 ### Initialization
+
+[Refere to documentation](docs/initialization.md)
 
 ## Contributing
 
