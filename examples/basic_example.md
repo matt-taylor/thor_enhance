@@ -28,6 +28,7 @@ require "bundler/setup"
 require "thor_enhance_config"
 
 class ThorEnhancement < Thor
+  thor_enhance_allow!
 
   dec "test", "Testing method"
   example "thor_cli.rb test --value 'This is rad'"

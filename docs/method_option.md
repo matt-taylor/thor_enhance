@@ -49,4 +49,3 @@ EX: `publish: true` succeeds. `publish: :fail` fails.
 
 [Basic Example](../examples/basic_example.md)
 [Basic Example with Subcommand](../examples/basic_example_with_subcommand.md)
-

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "thor_enhance/base"
 require "thor_enhance/command"
 require "thor_enhance/command_hook"
 require "thor_enhance/command_method"

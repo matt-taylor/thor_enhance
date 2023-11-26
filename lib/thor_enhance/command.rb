@@ -12,11 +12,6 @@ module ThorEnhance
         define_method(name) { instance_variable_get("@#{name}") }
         define_method("#{name}=") { instance_variable_set("@#{name}", _1) }
       end
-
-      # Prepend it so we can call this run method first
-      ::Thor::Command.prepend ThorEnhance::CommandHook
-
-      ::Thor::Command.include ThorEnhance::Command
     end
   end
 end

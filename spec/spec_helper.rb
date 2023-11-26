@@ -1,28 +1,34 @@
 # frozen_string_literal: true
 
-if ENV['CI'] == 'true'
-  require 'simplecov'
+if ENV["CI"] == "true"
+  require "simplecov"
   # Needs to be loaded prior to application start
   SimpleCov.start do
-    add_filter 'spec/'
+    add_filter "spec/"
   end
 end
 
-require 'thor_enhance'
-require 'faker'
-require 'pry'
+require "thor_enhance"
+require "pry"
 
 ThorEnhance.configure do |c|
   c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "deprecate", "hook"], required: true
   c.add_option_enhance "revoke", allowed_klasses: [TrueClass, FalseClass], required: false
   c.add_command_method_enhance "human_readable", required: true
   c.add_command_method_enhance "example", repeatable: true
+  c.add_command_method_enhance "counter", allowed_klasses: [Integer, String]
+  c.add_command_method_enhance "counter_enum", enums: [:allowed, :skip]
 end
 
 class MyTestClass < Thor
+  thor_enhance_allow!
+
   class SubCommand < Thor
+    thor_enhance_allow!
+
     desc "innard", "Innard testing task"
     example "bin/thor sub innard -t something"
+    human_readable "required"
     method_option :t, type: :string, classify: "allowed"
     def innard;end;
   end
@@ -44,6 +50,33 @@ class MyTestClass < Thor
   method_option :option4, type: :boolean, desc: "Option4", classify: "hook", hook: ->(v, option) { Kernel.puts "This is the correct option to use" }
   method_option :option5, type: :boolean, desc: "Option5", classify: "deprecate", deprecate: ->(v, option) { { warn: "Options Are missing. This will raise" } }
   def test_meth;end;
+end
+
+class TestAccessPatterns < Thor
+  thor_enhance_allow!
+
+  disable_thor_enhance! do
+    desc "test_meth", "short description"
+    method_option :enhance, type: :boolean, desc: "Tester"
+    def test_meth; end;
+
+    # Only enable classify method option; human readable method is disabled
+    enable_thor_enhance! do
+      desc "test_meth2", "short description"
+      human_readable "Thor Test command"
+      method_option :enhance, type: :boolean, desc: "Tester", classify: "allowed"
+      def test_meth2; end;
+
+      desc "test_meth4", "short description"
+      human_readable "Thor Test command"
+      method_option :enhance, type: :boolean, desc: "Tester", classify: "allowed"
+      def test_meth4; end;
+    end
+
+    desc "test_meth3", "short description"
+    method_option :enhance, type: :boolean, desc: "Tester"
+    def test_meth3; end;
+  end
 end
 
 RSpec.configure do |config|
