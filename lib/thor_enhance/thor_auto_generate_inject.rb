@@ -14,6 +14,8 @@ class Thor
   method_option :subcommand, aliases: "-s", type: :string, repeatable: true, desc: "When provided, autogeneration will execute on the subcommand"
   method_option :command, aliases: "-c", type: :string, desc: "When provided, autogeneration will occur only on this method. Note: When used with subcommand, method must exist on subcommand"
   method_option :executable, aliases: "-e", type: :string, default: File.basename($0), desc: "The name of the file that executes the Thor script"
+
+  # :nocov:
   def thor_enhance_autogenerate
     require "thor_enhance/autogenerate"
     result = ThorEnhance::Autogenerate.execute!(options: options, root: self.class)
@@ -32,4 +34,5 @@ class Thor
       exit 1
     end
   end
+  # :nocov:
 end
