@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    thor_enhance (0.4.0)
+    thor_enhance (0.5.0)
       activesupport (>= 6)
       thor (~> 1.3)
 
@@ -30,7 +30,6 @@ GEM
       ruby2_keywords
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
-    json (2.6.3)
     method_source (1.0.0)
     minitest (5.20.0)
     mutex_m (0.2.0)
@@ -56,11 +55,12 @@ GEM
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby2_keywords (0.0.5)
-    simplecov (0.17.1)
+    simplecov (0.22.0)
       docile (~> 1.1)
-      json (>= 1.8, < 3)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.2)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     thor (1.3.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -73,7 +73,7 @@ DEPENDENCIES
   pry-byebug
   rspec (~> 3.0)
   rspec_junit_formatter
-  simplecov (~> 0.17.0)
+  simplecov
   thor_enhance!
 
 BUNDLED WITH

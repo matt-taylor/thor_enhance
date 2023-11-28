@@ -9,4 +9,4 @@ gem "pry"
 gem "pry-byebug"
 gem "rspec", "~> 3.0"
 gem "rspec_junit_formatter"
-gem "simplecov", "~> 0.17.0", require: false
+gem "simplecov", require: false
