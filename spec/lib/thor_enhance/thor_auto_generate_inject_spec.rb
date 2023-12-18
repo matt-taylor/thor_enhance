@@ -9,13 +9,24 @@ RSpec.describe Thor do
     allow($stderr).to receive(:print)
     allow(ThorEnhance::Autogenerate).to receive(:execute!).and_return(result)
   end
-  let(:raw) { OpenStruct.new(subcommand: nil, command: nil, root: nil) }
+  let(:raw) { OpenStruct.new(subcommand: subcommand, command: input_command, root: nil) }
+  let(:subcommand) { nil }
+  let(:input_command) { nil }
   let(:instance) { MyTestClass.new }
   let(:command) { MyTestClass.all_commands["thor_enhance_autogenerate"] }
   let(:status) { :pass }
   let(:msg_array) { ["this", "fails", "too", "much"] }
-  let(:result) { { status: status, msg_array: msg_array, saved_status: [] } }
+  let(:result) { { status: status, msg_array: msg_array, saved_status: saved_status } }
+  let(:saved_status) do
+    [
+      { path: "some/cool/path", diff: :new, apply: apply },
+      { path: "some/different/path", diff: :same, apply: apply },
+      { path: "some/perfect/path", diff: :overwite, apply: apply },
+      { path: "some/not_perfect/path", diff: :else, apply: apply },
+    ]
+  end
 
+  let(:apply) { true }
   subject { command.run(instance) }
 
   context "when fail" do
@@ -33,6 +44,20 @@ RSpec.describe Thor do
 
     it do
       expect { subject }.to_not raise_error
+    end
+
+    context "when not applied" do
+      let(:apply) { false }
+
+      it do
+        expect { subject }.to_not raise_error
+      end
+    end
+
+    context "when apply" do
+      it do
+        expect { subject }.to_not raise_error
+      end
     end
   end
 

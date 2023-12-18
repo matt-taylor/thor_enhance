@@ -15,7 +15,6 @@ module ThorEnhance
 
       command = validate_result[:command]
       trunk = validate_result[:trunk]
-
       leaves =
         if command
           { options.command => command }

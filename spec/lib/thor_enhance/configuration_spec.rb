@@ -29,11 +29,27 @@ RSpec.describe ThorEnhance::Configuration do
   end
 
   describe "#add_command_method_enhance" do
-    subject { instance.add_command_method_enhance(name, allowed_klasses: allowed_klasses, enums: enums) }
+    subject { instance.add_command_method_enhance(name, **params) }
 
+    let(:params) do
+      {
+        allowed_klasses: allowed_klasses,
+        arity: arity,
+        enums: enums,
+        optional_kwargs: optional_kwargs,
+        repeatable: repeatable,
+        required: required,
+        required_kwargs: required_kwargs,
+      }
+    end
+    let(:name) { "some_name_#{random_chars}" }
     let(:allowed_klasses) { nil }
     let(:enums) { nil }
-    let(:name) { "some_name_#{random_chars}" }
+    let(:required) { false }
+    let(:repeatable) { false }
+    let(:arity) { 0 }
+    let(:required_kwargs) { [] }
+    let(:optional_kwargs) { [] }
 
     context "when invalid type" do
       let(:name) { 1 }
@@ -80,6 +96,14 @@ RSpec.describe ThorEnhance::Configuration do
 
       it do
         expect { subject }.to raise_error(ArgumentError, /Recieved allowed_klasses with/)
+      end
+    end
+
+    context "when incorrect arity" do
+      let(:arity) { -1 }
+
+      it do
+        expect { subject }.to raise_error(ArgumentError, /Recieved arity with/)
       end
     end
 
@@ -179,6 +203,29 @@ RSpec.describe ThorEnhance::Configuration do
       it do
         expect { subject }.to raise_error(ThorEnhance::ValidationFailed, /ReadMe Enhance has already been initialized/)
       end
+    end
+  end
+
+  describe "allowed=" do
+    subject { instance.allowed = allowed }
+
+    let(:allowed) { described_class::ALLOWED_VALUES.sample }
+
+    context "when not allowed" do
+      let(:allowed) { (super().to_s + "#{rand(10_000..99_999)}")}
+
+      it do
+        expect { subject }.to raise_error(ArgumentError, /Unexpected value for `allowed =`/)
+      end
+    end
+  end
+
+  describe "basename | basename = " do
+    let(:basename) { "Some Random String #{rand(10_000..99_999)}" }
+    it "sets basename" do
+      instance.basename = basename
+
+      expect(instance.basename).to eq(basename)
     end
   end
 end

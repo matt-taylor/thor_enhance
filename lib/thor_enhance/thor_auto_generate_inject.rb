@@ -46,7 +46,7 @@ class Thor
         when :overwite
           say "  Changes  : #{status[:path]}", [:cyan, :bold], true
         else
-          say "           : #{status[:path]}", true
+          say "           : #{status[:path]}", [:bold], true
         end
       end
     end

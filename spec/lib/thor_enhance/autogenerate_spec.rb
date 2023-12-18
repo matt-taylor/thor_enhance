@@ -20,6 +20,30 @@ RSpec.describe ThorEnhance::Autogenerate do
     end
   end
 
+  context "with command" do
+    let(:command) { "test_meth" }
+
+    it do
+      expect { subject }.to_not raise_error
+    end
+
+    it do
+      expect(subject[:status]).to eq(:pass)
+    end
+  end
+
+  context "with subcommand" do
+    let(:subcommand) { ["sub"] }
+
+    it do
+      expect { subject }.to_not raise_error
+    end
+
+    it do
+      expect(subject[:status]).to eq(:pass)
+    end
+  end
+
   it "calls downstream" do
     expect(subject[:status]).to eq(:pass)
   end

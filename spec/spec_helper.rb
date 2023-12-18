@@ -45,12 +45,13 @@ class MyTestClass < Thor
   example "test_meth", desc: "basoc interpretation"
   example "test_meth --test_meth_option", desc: "With custom method"
 
-  method_option :test_meth_option, type: :boolean, desc: "Tester", classify: "allowed"
-  method_option :option1, type: :boolean, desc: "Option1", classify: "deprecate", deprecate: ->(v, option) { "Please migrate to --option4" }
-  method_option :option2, type: :boolean, desc: "Option2", classify: "deprecate", deprecate: ->(v, option) { { raise: false, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }
-  method_option :option3, type: :boolean, desc: "Option3", classify: "deprecate", deprecate: ->(v, option) { { raise: true, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }
-  method_option :option4, type: :boolean, desc: "Option4", classify: "hook", hook: ->(v, option) { Kernel.puts "This is the correct option to use" }
-  method_option :option5, type: :boolean, desc: "Option5", classify: "deprecate", deprecate: ->(v, option) { { warn: "Options Are missing. This will raise" } }
+  method_option :test_meth_option, type: :boolean, desc: "Tester", classify: "allowed", readme: :important
+  method_option :test_meth_option2, type: :string, desc: "Tester", classify: "allowed", readme: :important
+  method_option :option1, type: :boolean, desc: "Option1", classify: "deprecate", deprecate: ->(v, option) { "Please migrate to --option4" }, readme: :important
+  method_option :option2, type: :boolean, desc: "Option2", classify: "deprecate", deprecate: ->(v, option) { { raise: false, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }, readme: :important
+  method_option :option3, type: :boolean, desc: "Option3", classify: "deprecate", deprecate: ->(v, option) { { raise: true, warn: "Option will be deprecated in next release.", msg: "Migrate to --option4" } }, readme: :important
+  method_option :option4, type: :boolean, desc: "Option4", classify: "hook", hook: ->(v, option) { Kernel.puts "This is the correct option to use" }, readme: :important
+  method_option :option5, type: :boolean, desc: "Option5", classify: "deprecate", deprecate: ->(v, option) { { warn: "Options Are missing. This will raise" } }, readme: :important
   def test_meth;end;
 end
 

@@ -296,8 +296,4 @@ RSpec.describe ThorEnhance do
       end
     end
   end
-
-  describe ".disable_thor_enhance" do
-
-  end
 end
