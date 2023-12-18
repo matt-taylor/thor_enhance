@@ -153,6 +153,7 @@ RSpec.describe ThorEnhance::Configuration do
   end
 
   describe "#readme_enhance!" do
+    before { ENV["SKIP_TESTING_METHOD"] = "true" }
     subject { instance.readme_enhance! }
 
     before do
@@ -160,7 +161,7 @@ RSpec.describe ThorEnhance::Configuration do
     end
 
     it "defines readme options" do
-      expect(instance).to receive(:add_command_method_enhance).once
+      expect(instance).to receive(:add_command_method_enhance).at_least(3)
       expect(instance).to receive(:add_option_enhance).once
 
       subject

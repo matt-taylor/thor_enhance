@@ -5,17 +5,19 @@ if ENV["CI"] == "true"
   # Needs to be loaded prior to application start
   SimpleCov.start do
     add_filter "spec/"
+    enable_coverage :branch
   end
 end
 
 require "thor_enhance"
 require "pry"
+require "ice_age"
 
 ThorEnhance.configure do |c|
+  c.readme_enhance!
   c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "deprecate", "hook"], required: true
   c.add_option_enhance "revoke", allowed_klasses: [TrueClass, FalseClass], required: false
   c.add_command_method_enhance "human_readable", required: true
-  c.add_command_method_enhance "example", repeatable: true
   c.add_command_method_enhance "counter", allowed_klasses: [Integer, String]
   c.add_command_method_enhance "counter_enum", enums: [:allowed, :skip]
 end
@@ -27,21 +29,19 @@ class MyTestClass < Thor
     thor_enhance_allow!
 
     desc "innard", "Innard testing task"
-    example "bin/thor sub innard -t something"
+    example "innard -t something", desc: "some imporatn description"
     human_readable "required"
     method_option :t, type: :string, classify: "allowed"
     def innard;end;
   end
 
   desc "sub", "Submodule command line"
-  human_readable "Subcommand Module"
-  example "bin/thor sub ***"
   subcommand "sub", SubCommand
 
   desc "test_meth", "short description"
   human_readable "Thor Test command"
-  example "bin/thor test_meth"
-  example "bin/thor test_meth --test_meth_option"
+  example "test_meth", desc: "basoc interpretation"
+  example "test_meth --test_meth_option", desc: "With custom method"
 
   method_option :test_meth_option, type: :boolean, desc: "Tester", classify: "allowed"
   method_option :option1, type: :boolean, desc: "Option1", classify: "deprecate", deprecate: ->(v, option) { "Please migrate to --option4" }
@@ -99,7 +99,6 @@ RSpec.configure do |config|
   end
 
   config.profile_examples = 2
-
   config.order = :random
   Kernel.srand config.seed
 end

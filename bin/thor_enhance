@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require "pry"
+
+require "thor_enhance"
+
+ThorEnhance.configure do |c|
+  c.readme_enhance!(required: true)
+end
+
+require "thor_enhance/sample"
+
+begin
+  ThorEnhance::Sample.start
+rescue Interrupt => e
+  $stdout.puts "\nThanks for using Better Dependabot 👋\n"
+end

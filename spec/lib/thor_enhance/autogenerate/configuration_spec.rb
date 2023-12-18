@@ -122,7 +122,7 @@ RSpec.describe ThorEnhance::Autogenerate::Configuration do
     it do
       subject
 
-      expect(instance.configuration[:add_option_enhance][:readme][:enums]).to eq([:important, :advanced])
+      expect(instance.configuration[:add_option_enhance][:readme][:enums]).to eq([:important, :advanced, :skip])
     end
 
     context "when required is set" do

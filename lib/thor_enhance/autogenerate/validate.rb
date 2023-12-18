@@ -3,7 +3,9 @@
 module ThorEnhance
   module Autogenerate
     module Validate
-      def self.validate(options:, root: nil)
+      module_function
+
+      def validate(options:, root: nil)
         root_result = validate_root(options: options, root: root)
         return root_result if root_result[:status] != :pass
 
@@ -17,13 +19,12 @@ module ThorEnhance
         command_result = validate_command(options: options, trunk: trunk, constant: constant)
         return command_result if command_result[:status] != :pass
         command = command_result[:command]
-
         { command: command, trunk: trunk, constant: constant, status: :pass }
       end
 
-      def self.validate_root(options:, root:)
+      def validate_root(options:, root:)
         begin
-          constant = root || Object.const_get(options.root)
+          constant = root || Object.const_get(options.root.to_s)
         rescue NameError => e
           msg_array = [
             "Unable to load provided --root|-r option `#{options.root}`",
@@ -45,7 +46,7 @@ module ThorEnhance
         { trunk: trunk, constant: constant, status: :pass }
       end
 
-      def self.validate_command(options:, trunk:, constant:)
+      def validate_command(options:, trunk:, constant:)
         # Return early when command is not present in the options object
         command = options.command
         return { status: :pass, trunk: trunk, command: nil } if command.nil?
@@ -63,7 +64,7 @@ module ThorEnhance
         { msg_array: msg_array, status: :fail }
       end
 
-      def self.validate_subcommand(options:, trunk:)
+      def validate_subcommand(options:, trunk:)
         subcommands = options.subcommand
         return { trunk: trunk, status: :pass } if subcommands.nil?
 

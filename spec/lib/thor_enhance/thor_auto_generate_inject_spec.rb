@@ -14,7 +14,7 @@ RSpec.describe Thor do
   let(:command) { MyTestClass.all_commands["thor_enhance_autogenerate"] }
   let(:status) { :pass }
   let(:msg_array) { ["this", "fails", "too", "much"] }
-  let(:result) { { status: status, msg_array: msg_array } }
+  let(:result) { { status: status, msg_array: msg_array, saved_status: [] } }
 
   subject { command.run(instance) }
 

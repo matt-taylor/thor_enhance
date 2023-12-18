@@ -30,6 +30,7 @@ GEM
       ruby2_keywords
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    ice_age (0.2.0)
     method_source (1.0.0)
     minitest (5.20.0)
     mutex_m (0.2.0)
@@ -67,8 +68,11 @@ GEM
 
 PLATFORMS
   aarch64-linux
+  arm64-darwin-22
+  arm64-darwin-23
 
 DEPENDENCIES
+  ice_age
   pry
   pry-byebug
   rspec (~> 3.0)
@@ -77,4 +81,4 @@ DEPENDENCIES
   thor_enhance!
 
 BUNDLED WITH
-   2.4.22
+   2.5.1

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require "active_support"
+
 require "thor_enhance/base"
 require "thor_enhance/command"
 require "thor_enhance/command_hook"
 require "thor_enhance/command_method"
 require "thor_enhance/configuration"
 require "thor_enhance/option"
-require "thor_enhance/thor_auto_generate_inject"
 require "thor_enhance/tree"
 
 module ThorEnhance
@@ -17,6 +18,10 @@ module ThorEnhance
   class OptionDeprecated < BaseError; end
   class TreeFailure < BaseError; end
   class AutoGenerateFailure < BaseError; end
+
+  def self.basename
+    configuration.basename
+  end
 
   def self.configure
     yield configuration if block_given?
