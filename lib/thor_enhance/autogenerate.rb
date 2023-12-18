@@ -43,7 +43,6 @@ module ThorEnhance
     def save_generated_readmes!(commands:, generated_root:, apply:)
       parent = generated_root || ENV["THOR_ENHANCE_GENERATED_ROOT_PATH"]
       full_root = "#{parent}/commands"
-      binding.pry
       saved_status = commands.map do |command|
         command.save_self!(root: full_root, apply: apply)
       end
