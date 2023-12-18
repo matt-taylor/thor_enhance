@@ -7,6 +7,8 @@ if ENV["CI"] == "true"
     add_filter "spec/"
     enable_coverage :branch
   end
+
+  ENV["THOR_ENHANCE_GENERATED_ROOT_PATH"] = "#{ENV["HOME"]}/#{ENV["CIRCLE_PROJECT_REPONAME"]}"
 end
 
 require "thor_enhance"
