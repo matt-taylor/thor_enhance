@@ -50,12 +50,14 @@ thor_enhance sample --boolean
 
 <details open>
   <summary> <h3> Important options </h3> </summary>
+
 ```bash
 # What: Just a normal boolean
 # Type: boolean
 # Required: false
 --boolean | -b | --no-boolean
 ```
+
 </details>
 
 ---
