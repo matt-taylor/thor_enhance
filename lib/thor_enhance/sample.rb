@@ -2,7 +2,6 @@
 
 require "thor_enhance"
 
-
 module ThorEnhance
   class Sample < Thor
     thor_enhance_allow!
@@ -21,7 +20,6 @@ module ThorEnhance
     end
 
     desc "sub", "Thor sub command validation for thor enhance"
-    # example "sub", desc: "how to invoke sub command help"
     subcommand "sub", SubCommand
 
     desc "sample", "This Sample command does a lot of nothing"
