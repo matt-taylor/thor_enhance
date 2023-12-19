@@ -1,7 +1,12 @@
-#### <%= name.to_s.titlecase %>
+# What: <%= option.description %>
+# Type: <%= option.type %>
+# Required: <%= option.required %>
+# <%= "**Allowed inputs:** #{option.enum}" if option.enum %>
+# <%= name.to_s.titlecase %>
+<%= invocations.map { "`#{_1}`"}.join(" | ") %>
 
 **What:** <%= option.description %><br>
-**Invocation:** <%= invocations.map { "`#{_1}`"}.join(" | ") %><br>
+**Invocation:** <br>
 **Type:** <%= option.type %><br>
 **Default:** <%= option.default || "none" %><br>
 **Required:** <%= option.required %><br>

@@ -16,10 +16,14 @@ module ThorEnhance
       end
 
       def template_text
-        @template_text ||= begin
-          params = { invocations: invocations, name: name, option: option }
-          OPTION_TEMPLATE.result_with_hash(params)
-        end
+        text = []
+        text << "# What: #{option.description}"
+        text << "# Type: #{option.type}"
+        text << "# Required: #{option.required}"
+        text << "# Allowed Inputs: #{option.enum}" if option.enum
+        text << invocations.map { "`#{_1}`"}.join(" | ")
+
+        text.join("\n")
       end
 
       def invocations

@@ -51,16 +51,10 @@ thor_enhance sample --boolean
 <details open>
   <summary> <h3> Important options </h3> </summary>
 
-#### Boolean
-
-**What:** Just a normal boolean<br>
-**Invocation:** `--boolean` | `-b` | `--no-boolean`<br>
-**Type:** boolean<br>
-**Default:** none<br>
-**Required:** false<br>
-
-
-
+# What: Just a normal boolean
+# Type: boolean
+# Required: false
+`--boolean` | `-b` | `--no-boolean`
 
 </details>
 

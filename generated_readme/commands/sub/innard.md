@@ -45,16 +45,10 @@ thor_enhance sub innard --count 35
 <details >
   <summary> <h3> Skip options </h3> </summary>
 
-#### Count
-
-**What:** <br>
-**Invocation:** `--count`<br>
-**Type:** numeric<br>
-**Default:** none<br>
-**Required:** false<br>
-
-
-
+# What: 
+# Type: numeric
+# Required: false
+`--count`
 
 </details>
 
