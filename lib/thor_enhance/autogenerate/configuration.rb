@@ -3,7 +3,7 @@
 module ThorEnhance
   module Autogenerate
     class Configuration
-      attr_reader :configuration, :readme_empty_group, :readme_skip_key, :readme_enums
+      attr_reader :question_headers, :custom_headers, :configuration, :readme_empty_group, :readme_skip_key, :readme_enums
 
       DEFAULT_SKIP_KEY = :skip
 
@@ -11,6 +11,8 @@ module ThorEnhance
         @required = required
         @configuration = { add_option_enhance: {}, add_command_method_enhance: {} }
         @readme_enums = []
+        @custom_headers = []
+        @question_headers = []
       end
 
       def set_default_required(value)
@@ -43,7 +45,17 @@ module ThorEnhance
       def header
         ThorEnhance::Configuration.allow_changes?
 
-        configuration[:add_command_method_enhance][:header] = { repeatable: true, required: false, required_kwargs: [:name, :desc] }
+        configuration[:add_command_method_enhance][:header] = { repeatable: true, required: false, required_kwargs: [:name, :desc], optional_kwargs: [:tag] }
+      end
+
+      def custom_header(name, question: false, repeatable: false, required: false)
+        ThorEnhance::Configuration.allow_changes?
+
+        raise ArgumentError, "Custom Header name must be unique. #{name} is already defined as a custom header. " if custom_headers.include?(name.to_sym)
+
+        custom_headers << name.to_sym
+        question_headers << name.to_sym if question
+        configuration[:add_command_method_enhance][name.to_sym] = { repeatable: repeatable, required: required, optional_kwargs: [:tag] }
       end
 
       def readme(required: nil, empty_group: :unassigned, skip_key: DEFAULT_SKIP_KEY, enums: [:important, :advanced, skip_key.to_sym].compact)

@@ -15,6 +15,7 @@ module ThorEnhance
       example "innard --count 5", desc: "Innard sub command with a count of 5"
       example "innard --count 35", desc: "Innard sub command with a count of 35"
       header name: "Deprecation warning", desc: "This command will get deprecated in the next major version"
+      when_should_i_use_this "Use sub command task to validate that subocommands work as expected"
       method_option :count, type: :numeric, readme: :skip
       def innard;end;
     end
@@ -24,8 +25,13 @@ module ThorEnhance
     subcommand "sub", SubCommand
 
     desc "sample", "This Sample command does a lot of nothing"
-    header name: "When should I use this?", desc: "Have you ever wanted your code to be useless? " \
-      "Well, this command does absolutely nothing. This output is to say that this command does absolutely nothing"
+    when_should_i_use_this <<~README
+    Have you ever wanted your code to be useless?
+    Well, this command does absolutely nothing.
+    This output is to say that this command does absolutely nothing
+    README
+    how_does_this_help "Honestly, this does not help at all", tag: "h4"
+    how_does_this_help "But its cool because it is a repatable command", tag: "h1"
     example "sample", desc: "yo yo ma"
     example "sample --boolean", desc: "yo yo ma"
     method_option :boolean, aliases: "-b", type: :boolean, desc: "Just a normal boolean", readme: :important

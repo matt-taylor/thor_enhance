@@ -16,13 +16,20 @@ require "pry"
 require "ice_age"
 
 ThorEnhance.configure do |c|
-  c.readme_enhance!
+  c.readme_enhance! do |r|
+    r.custom_header :what_do_you_meme
+    r.custom_header :extra_links
+    r.custom_header :how_to_integrate
+    r.custom_header :empty_header
+    r.custom_header :empty_header_two
+  end
   c.add_option_enhance "classify", enums: ["allowed", "helpful", "removed", "deprecate", "hook"], required: true
   c.add_option_enhance "revoke", allowed_klasses: [TrueClass, FalseClass], required: false
   c.add_command_method_enhance "human_readable", required: true
   c.add_command_method_enhance "counter", allowed_klasses: [Integer, String]
   c.add_command_method_enhance "counter_enum", enums: [:allowed, :skip]
 end
+
 
 class MyTestClass < Thor
   thor_enhance_allow!
@@ -33,6 +40,7 @@ class MyTestClass < Thor
     desc "innard", "Innard testing task"
     example "innard -t something", desc: "some imporatn description"
     human_readable "required"
+
     method_option :t, type: :string, classify: "allowed"
     def innard;end;
   end
@@ -42,6 +50,13 @@ class MyTestClass < Thor
 
   desc "test_meth", "short description"
   human_readable "Thor Test command"
+  what_do_you_meme "Order is important. This header will be first", tag: 1
+  how_to_integrate "This will be the second header with header tag 3", tag: "h3"
+  extra_links <<~README
+  - (Some Cool Link)[https://google.com]
+  - (Some Cool Repo)[https://github.com/matt-taylor/thor_enhance]
+  README
+  empty_header "This is empty", tag: "Bad Header"
   example "test_meth", desc: "basoc interpretation"
   example "test_meth --test_meth_option", desc: "With custom method"
 
