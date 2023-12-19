@@ -68,7 +68,7 @@ thor_enhance sample --boolean
 
 ---
 
-> AutoGenerateted by [ThorEnhance](https://github.com/matt-taylor/thor_enhance)
-> Regenerate file with: thor_enhance thor_enhance_autogenerate --command sample --apply
+> AutoGenerateted by [ThorEnhance](https://github.com/matt-taylor/thor_enhance) <br>
+> Regenerate file with: thor_enhance thor_enhance_autogenerate --command sample --apply <br>
 > Regenerate all files with: thor_enhance thor_enhance_autogenerate --apply
 

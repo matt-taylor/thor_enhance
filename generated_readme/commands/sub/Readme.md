@@ -27,7 +27,7 @@ thor_enhance sub innard --count 35
 
 ---
 
-> AutoGenerateted by [ThorEnhance](https://github.com/matt-taylor/thor_enhance)
-> Regenerate file with: thor_enhance thor_enhance_autogenerate --command sub --apply
+> AutoGenerateted by [ThorEnhance](https://github.com/matt-taylor/thor_enhance) <br>
+> Regenerate file with: thor_enhance thor_enhance_autogenerate --command sub --apply <br>
 > Regenerate all files with: thor_enhance thor_enhance_autogenerate --apply
 
