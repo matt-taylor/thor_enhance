@@ -9,6 +9,9 @@ module ThorEnhance
   module Autogenerate
     module_function
 
+    ROOT_ERB = "#{File.dirname(__FILE__)}/autogenerate/templates/root.rb.erb"
+    ROOT_TEMPLATE = ERB.new(File.read(ROOT_ERB))
+
     def execute!(options:, basename: File.basename($0), root: nil)
       validate_result = Validate.validate(options: options, root: root)
       return validate_result if validate_result[:status] != :pass
@@ -45,8 +48,31 @@ module ThorEnhance
       saved_status = commands.map do |command|
         command.save_self!(root: full_root, apply: apply)
       end
+      self_for_roots =  saved_status.collect { _1[:self_for_root] }
+      saved_status << root_savior!(apply: apply, full_root: full_root, self_for_roots: self_for_roots)
 
-      { status: :pass, saved_status: saved_status}
+      { status: :pass, saved_status: saved_status }
+    end
+
+    def root_savior!(full_root:, self_for_roots:, apply:)
+      full_path = "#{full_root}/Readme.md"
+      root_erb_result = self_for_roots.map do |root_child|
+        ROOT_TEMPLATE.result_with_hash({ root_child: root_child })
+      end.join("\n")
+
+      FileUtils.mkdir_p(full_root)
+      if File.exist?(full_path)
+        content = File.read(full_path)
+        diff = root_erb_result == content ? :same : :overwite
+      else
+        diff = :new
+      end
+
+      if apply
+        File.write(full_path, root_erb_result)
+      end
+
+      { path: full_path, diff: diff, apply: apply }
     end
   end
 end

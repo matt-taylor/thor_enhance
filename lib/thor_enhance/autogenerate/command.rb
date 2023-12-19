@@ -150,7 +150,7 @@ module ThorEnhance
           File.write(absolute_path, command_erb)
         end
 
-        { path: absolute_path, diff: diff, apply: apply }
+        { path: absolute_path, diff: diff, apply: apply, self_for_root: self_for_root }
       end
 
       def description
@@ -159,6 +159,10 @@ module ThorEnhance
 
       def title
         command.title || command.usage
+      end
+
+      def self_for_root
+        params_for_child(self)
       end
 
       private
@@ -203,15 +207,17 @@ module ThorEnhance
       end
 
       def children_descriptors
-        child_commands.map do |child|
-          {
-            title: child.title,
-            link: child.relative_readme_path[-1],
-            description: child.description,
-            basename_string: child.basename_string,
-            examples: child.drawn_out_examples(with_desc: false) || [],
-          }
-        end
+        child_commands.map { params_for_child(_1) }
+      end
+
+      def params_for_child(child)
+        {
+          title: child.title,
+          link: child.relative_readme_path[-1],
+          description: child.description,
+          basename_string: child.basename_string,
+          examples: child.drawn_out_examples(with_desc: false) || [],
+        }
       end
 
       def headers
