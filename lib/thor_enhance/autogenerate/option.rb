@@ -21,7 +21,7 @@ module ThorEnhance
         text << "# Type: #{option.type}"
         text << "# Required: #{option.required}"
         text << "# Allowed Inputs: #{option.enum}" if option.enum
-        text << invocations.map { "`#{_1}`"}.join(" | ")
+        text << invocations.map { "#{_1}"}.join(" | ")
 
         text.join("\n")
       end

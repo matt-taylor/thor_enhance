@@ -44,12 +44,12 @@ thor_enhance sub innard --count 35
 
 <details >
   <summary> <h3> Skip options </h3> </summary>
-
+```bash
 # What: 
 # Type: numeric
 # Required: false
-`--count`
-
+--count
+```
 </details>
 
 ---

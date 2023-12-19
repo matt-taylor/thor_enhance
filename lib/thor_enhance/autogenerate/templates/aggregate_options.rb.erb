@@ -2,9 +2,9 @@
 <% next if method_options[group_name].nil? %>
 <details <%= "open" if index == 0 %>>
   <summary> <h3> <%= group_name.to_s.titlecase %> options </h3> </summary>
-
+```bash
 <%= method_options[group_name].map { _1.template_text }.join("\n") %>
-
+```
 </details>
 
 ---
