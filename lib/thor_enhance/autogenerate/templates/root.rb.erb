@@ -1,0 +1,9 @@
+## [<%= root_child[:title]%>](<%= root_child[:link] %>)
+<%= root_child[:description] %>
+
+```bash
+# Help Command
+<%= root_child[:basename_string]%> <options>
+
+<%= root_child[:examples].map { _1 }.join("\n") %>
+```

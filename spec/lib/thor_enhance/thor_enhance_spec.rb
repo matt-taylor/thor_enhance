@@ -233,10 +233,10 @@ RSpec.describe ThorEnhance do
     let(:command) { ThorEnhance::Tree.tree(base: MyTestClass)["test_meth"].command }
 
     it "adds method" do
-      expect(command.human_readable).to eq("Thor Test command")
+      expect(command.human_readable[:input]).to eq("Thor Test command")
       expect(command.example).to be_a(Array)
-      expect(command.example[0]).to eq("bin/thor test_meth")
-      expect(command.example[1]).to eq("bin/thor test_meth --test_meth_option")
+      expect(command.example[0][:input]).to eq("test_meth")
+      expect(command.example[1][:input]).to eq("test_meth --test_meth_option")
     end
   end
 
@@ -295,9 +295,5 @@ RSpec.describe ThorEnhance do
         command.run(instance)
       end
     end
-  end
-
-  describe ".disable_thor_enhance" do
-
   end
 end

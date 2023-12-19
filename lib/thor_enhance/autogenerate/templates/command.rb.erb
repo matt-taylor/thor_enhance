@@ -1,0 +1,49 @@
+# <%= title.to_s.titlecase %>
+
+## Description
+<%= command.long_description || command.description %>
+
+```bash
+# Base command for `<%= command.usage %>`
+<%= basename_string %>
+```
+
+<%= custom_headers %>
+
+<% headers.each do |header| %>
+## <%= header[:name] %>
+<%= header[:desc]%>
+<% end %>
+<% if drawn_out_examples %>
+---
+
+## Examples
+<% drawn_out_examples.each do |ex|%>
+```bash
+<%= ex %>
+```
+<% end %>
+<% end %>
+<% if !method_options_erb.strip.empty? %>
+---
+
+<% if children_descriptors.empty? %>
+## Method Options
+
+<%= method_options_erb %>
+<% end %>
+<% else %>
+<% children_descriptors.each do |child| %>
+### [<%= child[:title]%>](<%= child[:link] %>)
+
+<%= child[:description] %>
+
+```bash
+<%= child[:basename_string]%> <options>
+<%= child[:examples].map { _1 }.join("\n") %>
+```
+<% end %>
+<% end %>
+---
+
+<%= footer_erb %>

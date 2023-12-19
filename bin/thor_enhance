@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require "pry"
+
+require "thor_enhance"
+
+ThorEnhance.configure do |c|
+  c.readme_enhance!(required: true) do |r|
+    r.custom_header(:how_does_this_help, repeatable: true)
+    r.custom_header(:when_should_i_use_this, required: true, question: true)
+  end
+end
+
+require "thor_enhance/sample"
+
+begin
+  ThorEnhance::Sample.start
+rescue Interrupt => e
+  $stdout.puts "\nThanks for using Better Dependabot 👋\n"
+end

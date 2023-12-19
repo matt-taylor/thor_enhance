@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support"
+
 require "thor_enhance/base"
 require "thor_enhance/command"
 require "thor_enhance/command_hook"
@@ -10,10 +12,16 @@ require "thor_enhance/tree"
 
 module ThorEnhance
   class BaseError < StandardError; end
-  class OptionNotAllowed < StandardError; end
-  class ValidationFailed < StandardError; end
-  class RequiredOption < StandardError; end
-  class OptionDeprecated < StandardError; end
+  class OptionNotAllowed < BaseError; end
+  class ValidationFailed < BaseError; end
+  class RequiredOption < BaseError; end
+  class OptionDeprecated < BaseError; end
+  class TreeFailure < BaseError; end
+  class AutoGenerateFailure < BaseError; end
+
+  def self.basename
+    configuration.basename
+  end
 
   def self.configure
     yield configuration if block_given?

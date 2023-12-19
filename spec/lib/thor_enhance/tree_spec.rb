@@ -13,6 +13,13 @@ RSpec.describe ThorEnhance::Tree do
       subject
       expect(described_class.ignore_commands).to include(command_name)
     end
+
+    context "when adding duplicate" do
+      it do
+        expect(described_class.add_ignore_commands(command_name)).to eq(true)
+        expect(described_class.add_ignore_commands(command_name)).to eq(false)
+      end
+    end
   end
 
   describe ".ignore_commands" do

@@ -5,8 +5,6 @@ require "thor"
 module ThorEnhance
   module Option
     def self.thor_enhance_injection!
-      return false unless ThorEnhance::Configuration.allow_changes?
-
       # Create getter method for the enhance instance variable
       ThorEnhance.configuration.option_enhance.each do |name, object|
         define_method(name) { instance_variable_get("@#{name}") }

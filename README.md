@@ -31,10 +31,12 @@ Command option injection is very powerful. This allows add low level documentati
 
 [Command option documentation](docs/command.md)
 
-### [Future Plans] Automatic ReadMe Generation
+### Automatic ReadMe Generation
 The beauty of ThorEnhance is that it forces all your documentation to live with the code. As your code changes, the documentation naturally changes with it.
 
-In the near future, we plan to allow for automatic readme generation based on the enhanced commands provided.
+ThorEnhance can automatically generate your code bases Readme for you.
+
+[Autogenerate Readme](docs/autogenerate/Readme.md)
 
 
 ### Initialization
