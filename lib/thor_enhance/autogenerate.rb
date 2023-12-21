@@ -30,16 +30,24 @@ module ThorEnhance
         end
 
       command_structure = leaves.map do |name, leaf|
-        parent = Command.new(name: name, leaf: leaf, basename: basename)
+        Command.new(name: name, leaf: leaf, basename: basename)
       end
 
       # flatten_children returns all kids, grandkids, great grandkids etc of the commands returned from the above mapping
       youthful_kids = command_structure.map(&:flatten_children).flatten
+      children_result = save_generated_readmes!(commands: youthful_kids, generated_root: options.generated_root, apply: options.apply)
+      return children_result if children_result[:status] != :pass
 
-      # this is a flat map of the entire family tree. Each node knows where it is so we can flatten it
-      family_tree = command_structure + youthful_kids
+      root_result = save_generated_readmes!(commands: command_structure, generated_root: options.generated_root, apply: options.apply)
+      return root_result if root_result[:status] != :pass
 
-      save_generated_readmes!(commands: family_tree, generated_root: options.generated_root, apply: options.apply)
+      self_for_roots = root_result[:saved_status].collect { _1[:self_for_root] }
+      # Add saved results from the children
+      root_result[:saved_status] += children_result[:saved_status]
+      # Add root savior saved results
+      root_result[:saved_status] << root_savior!(apply: options.apply, full_root: root_result[:full_root], self_for_roots: self_for_roots)
+
+      root_result
     end
 
     def save_generated_readmes!(commands:, generated_root:, apply:)
@@ -48,10 +56,8 @@ module ThorEnhance
       saved_status = commands.map do |command|
         command.save_self!(root: full_root, apply: apply)
       end
-      self_for_roots =  saved_status.collect { _1[:self_for_root] }
-      saved_status << root_savior!(apply: apply, full_root: full_root, self_for_roots: self_for_roots)
 
-      { status: :pass, saved_status: saved_status }
+      { status: :pass, full_root: full_root, saved_status: saved_status }
     end
 
     def root_savior!(full_root:, self_for_roots:, apply:)
