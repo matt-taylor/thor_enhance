@@ -61,9 +61,9 @@ module ThorEnhance
       def readme(required: nil, empty_group: :unassigned, skip_key: DEFAULT_SKIP_KEY, enums: [:important, :advanced, skip_key.to_sym].compact)
         ThorEnhance::Configuration.allow_changes?
 
-        @readme_empty_group = empty_group
+        @readme_empty_group = empty_group.to_sym
         @readme_skip_key = skip_key
-        @readme_enums = enums.map(&:to_sym)
+        @readme_enums = enums.map(&:to_sym) << empty_group.to_sym
         required = required.nil? ? @required : required
         configuration[:add_option_enhance][:readme] = { enums: enums, required: required }
       end

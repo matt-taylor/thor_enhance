@@ -4,9 +4,8 @@
   <summary> <h3> <%= group_name.to_s.titlecase %> options </h3> </summary>
 
 ```bash
-<%= method_options[group_name].map { _1.template_text }.join("\n") %>
+<%= method_options[group_name].map { "#{_1.template_text}\n" }.join("\n") %>
 ```
 
 </details>
-
 <% end %>

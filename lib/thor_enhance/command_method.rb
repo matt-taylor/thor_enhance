@@ -100,7 +100,10 @@ module ThorEnhance
               # The value is nil/unset
 
               # If we have disabled required operations, go ahead and skip this
-              next if ::Thor.__thor_enhance_definition == ThorEnhance::CommandMethod::ClassMethods::THOR_ENHANCE_DISABLE
+              if ::Thor.__thor_enhance_definition == ThorEnhance::CommandMethod::ClassMethods::THOR_ENHANCE_DISABLE
+                ::Thor.__thor_enhance_definition_ignored << meth.to_sym
+                next
+              end
 
               # Skip if the expected command method was not required
               next unless object[:required]
@@ -135,8 +138,11 @@ module ThorEnhance
         @__thor_enhance_definition_stack ||= []
       end
 
-      private
+      def __thor_enhance_definition_ignored
+        @__thor_enhance_definition_ignored ||= []
+      end
 
+      private
 
       def __thor_enhance_validate_arguments!(object, input, args, kwargs)
         expected_arity = object.dig(:arity)

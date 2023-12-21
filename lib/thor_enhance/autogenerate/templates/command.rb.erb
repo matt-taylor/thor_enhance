@@ -5,9 +5,8 @@
 
 ```bash
 # Base command for `<%= command.usage %>`
-<%= basename_string %>
+<%= all_bases.join(" <options> \n") %> <options>
 ```
-
 <%= custom_headers %>
 
 <% headers.each do |header| %>
@@ -36,10 +35,11 @@
 <% children_descriptors.each do |child| %>
 ### [<%= child[:title]%>](<%= child[:link] %>)
 
+<%= "**Default Command**" if child[:default_command] %>
 <%= child[:description] %>
 
 ```bash
-<%= child[:basename_string]%> <options>
+<%= child[:all_bases].join(" <options> \n") %> <options>
 <%= child[:examples].map { _1 }.join("\n") %>
 ```
 <% end %>
