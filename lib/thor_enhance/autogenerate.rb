@@ -45,7 +45,7 @@ module ThorEnhance
       # Add saved results from the children
       root_result[:saved_status] += children_result[:saved_status]
       # Add root savior saved results
-      root_result[:saved_status] << root_savior!(apply: options.apply, full_root: root_result[:full_root], self_for_roots: self_for_roots)
+      root_result[:saved_status] << root_savior!(basename: basename, apply: options.apply, full_root: root_result[:full_root], self_for_roots: self_for_roots)
 
       root_result
     end
@@ -60,11 +60,14 @@ module ThorEnhance
       { status: :pass, full_root: full_root, saved_status: saved_status }
     end
 
-    def root_savior!(full_root:, self_for_roots:, apply:)
+    def root_savior!(basename:, full_root:, self_for_roots:, apply:)
       full_path = "#{full_root}/Readme.md"
-      root_erb_result = self_for_roots.map do |root_child|
+      regenerate_thor_command = "#{basename} thor_enhance_autogenerate --apply"
+      footer = ThorEnhance::Autogenerate::Command::FOOTER_TEMPLATE.result_with_hash({ regenerate_single_command: regenerate_thor_command, regenerate_thor_command: regenerate_thor_command })
+
+      root_erb_result = (self_for_roots.map do |root_child|
         ROOT_TEMPLATE.result_with_hash({ root_child: root_child })
-      end.join("\n")
+      end + [footer]).join("\n")
 
       FileUtils.mkdir_p(full_root)
       if File.exist?(full_path)
