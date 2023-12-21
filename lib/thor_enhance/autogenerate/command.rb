@@ -257,6 +257,8 @@ module ThorEnhance
       end
 
       def params_for_child(child)
+        relative_link = find_iterations_back(child)
+        link = child.relative_readme_path[relative_link..-1].join("/")
         {
           all_bases: child.all_bases,
           basename_string: child.basename_string,
@@ -264,10 +266,26 @@ module ThorEnhance
           default_command_string: default_command_string,
           description: child.description,
           examples: child.drawn_out_examples(with_desc: false) || [],
-          link: child.relative_readme_path[-1],
+          link: link,
           preferred_basename_string: child.preferred_basename_string,
           title: child.title,
         }
+      end
+
+      def find_iterations_back(child)
+        # if parent is not present, then start from 0th position
+        return 0 if child.parent.nil?
+
+        # when parent exists, find out how many parents there are
+        # Return how many parents there are
+        iterations = -1
+        temp_child = child
+        while temp = temp_child.parent
+          iterations -= 1
+          temp_child = temp_child.parent
+        end
+
+        iterations
       end
 
       def headers
