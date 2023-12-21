@@ -63,7 +63,7 @@ module ThorEnhance
     def root_savior!(basename:, full_root:, self_for_roots:, apply:)
       full_path = "#{full_root}/Readme.md"
       regenerate_thor_command = "#{basename} thor_enhance_autogenerate --apply"
-      footer = ThorEnhance::Autogenerate::Command::FOOTER_TEMPLATE.result_with_hash({ regenerate_single_command: regenerate_thor_command, regenerate_thor_command: regenerate_thor_command })
+      footer = ThorEnhance::Autogenerate::Command::FOOTER_TEMPLATE.result_with_hash({ regenerate_thor_command: regenerate_thor_command })
 
       root_erb_result = (self_for_roots.map do |root_child|
         ROOT_TEMPLATE.result_with_hash({ root_child: root_child })

@@ -76,9 +76,8 @@ module ThorEnhance
 
       def footer_erb
         @footer_erb ||=  begin
-          regenerate_single_command = "#{parent_basename_string} thor_enhance_autogenerate --command #{command.usage} --apply"
           regenerate_thor_command = "#{basename} thor_enhance_autogenerate --apply"
-          FOOTER_TEMPLATE.result_with_hash({ regenerate_single_command: regenerate_single_command, regenerate_thor_command: regenerate_thor_command })
+          FOOTER_TEMPLATE.result_with_hash({ regenerate_thor_command: regenerate_thor_command })
         end
       end
 
