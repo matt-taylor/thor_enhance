@@ -13,6 +13,9 @@ module ThorEnhance
       AGGREGATE_OPTIONS_ERB = "#{File.dirname(__FILE__)}/templates/aggregate_options.rb.erb"
       AGGREGATE_OPTIONS_TEMPLATE = ERB.new(File.read(AGGREGATE_OPTIONS_ERB))
 
+      CLASS_OPTIONS_ERB = "#{File.dirname(__FILE__)}/templates/class_options.rb.erb"
+      CLASS_OPTIONS_TEMPLATE = ERB.new(File.read(CLASS_OPTIONS_ERB))
+
       FOOTER_ERB = "#{File.dirname(__FILE__)}/templates/footer.rb.erb"
       FOOTER_TEMPLATE = ERB.new(File.read(FOOTER_ERB))
 
@@ -53,6 +56,7 @@ module ThorEnhance
             all_bases: all_bases,
             basename_string: basename_string,
             children_descriptors: children_descriptors,
+            class_options_erb: class_options_erb,
             command: command,
             custom_headers: custom_headers,
             default_command: default_command,
@@ -98,6 +102,16 @@ module ThorEnhance
 
       def method_options_erb
         @method_options_erb ||= AGGREGATE_OPTIONS_TEMPLATE.result_with_hash({ method_options: method_options })
+      end
+
+      def class_options_erb
+        @class_options_erb ||= CLASS_OPTIONS_TEMPLATE.result_with_hash({ method_options_text_array: class_options.map(&:template_text) })
+      end
+
+      def class_options
+        leaf.base.class_options.map do |name, class_option|
+          class_option.hide ? nil : Option.new(name: name, option: class_option)
+        end.compact
       end
 
       def basename_string
