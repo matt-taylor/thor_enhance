@@ -275,6 +275,8 @@ module ThorEnhance
       def find_iterations_back(child)
         # if parent is not present, then start from 0th position
         return 0 if child.parent.nil?
+        # When there is no children, just take the last
+        return -1 unless child.leaf.children?
 
         # when parent exists, find out how many parents there are
         # Return how many parents there are
