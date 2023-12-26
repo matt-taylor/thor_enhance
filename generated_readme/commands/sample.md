@@ -1,5 +1,7 @@
 # Sample
 
+Source code for this command can be found at: [ThorEnhance::Sample#sample](/lib/thor_enhance/sample.rb#L39)
+
 ## Description
 This Sample command does a lot of nothing
 
@@ -7,9 +9,6 @@ This Sample command does a lot of nothing
 # Base command for `sample`
 thor_enhance sample <options>
 ```
-
-## Command Source
-Source code for this command can be found at: [ThorEnhance::Sample#sample](/lib/thor_enhance/sample.rb#L39)
 
 #### How Does This Help
 

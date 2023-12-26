@@ -1,5 +1,7 @@
 # <%= title.to_s.titlecase %>
 
+<%= command_source %>
+
 ## Description
 <%= command.long_description || command.description %>
 
@@ -7,9 +9,6 @@
 # Base command for `<%= command.usage %>`
 <%= all_bases.join(" <options> \n") %> <options>
 ```
-
-## Command Source
-<%= command_source %>
 
 <%= custom_headers %>
 

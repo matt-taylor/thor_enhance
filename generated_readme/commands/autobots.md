@@ -1,5 +1,7 @@
 # Autobots
 
+Source code for this command can be found at: [ThorEnhance::Sample#autobots](/lib/thor_enhance/sample.rb#L51)
+
 ## Description
 Command outputs what Optimus prime is thniking
 
@@ -7,9 +9,6 @@ Command outputs what Optimus prime is thniking
 # Base command for `autobots`
 thor_enhance autobots <options>
 ```
-
-## Command Source
-Source code for this command can be found at: [ThorEnhance::Sample#autobots](/lib/thor_enhance/sample.rb#L52)
 
 ## When Should I Use This?
 
