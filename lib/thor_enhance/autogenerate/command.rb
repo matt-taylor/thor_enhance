@@ -104,7 +104,13 @@ module ThorEnhance
       end
 
       def class_options_erb
-        @class_options_erb ||= CLASS_OPTIONS_TEMPLATE.result_with_hash({ method_options_text_array: class_options.map(&:template_text) })
+        @class_options_erb ||= begin
+          if class_options.empty?
+            nil
+          else
+            CLASS_OPTIONS_TEMPLATE.result_with_hash({ method_options_text_array: class_options.map(&:template_text) })
+          end
+        end
       end
 
       def class_options

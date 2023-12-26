@@ -35,15 +35,6 @@ thor_enhance sub innard --count 35
 
 
 
-<details>
-  <summary> <h3> Class Options </h3> </summary>
-
-
-```bash
-
-```
-
-</details>
 
 ---
 

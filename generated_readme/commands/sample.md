@@ -67,15 +67,6 @@ thor_enhance sample --boolean
 
 
 
-<details>
-  <summary> <h3> Class Options </h3> </summary>
-
-
-```bash
-
-```
-
-</details>
 
 ---
 
