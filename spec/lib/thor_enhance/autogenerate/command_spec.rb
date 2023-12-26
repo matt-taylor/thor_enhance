@@ -21,6 +21,7 @@ RSpec.describe ThorEnhance::Autogenerate::Command do
       name: name,
       basename: basename,
       parent: nil,
+      root: "",
     }
   end
   let(:name) { leaf.command.name }
