@@ -30,7 +30,7 @@ module ThorEnhance
         end
 
       command_structure = leaves.map do |name, leaf|
-        Command.new(name: name, leaf: leaf, basename: basename)
+        Command.new(name: name, leaf: leaf, basename: basename, root: options.generated_root)
       end
 
       # flatten_children returns all kids, grandkids, great grandkids etc of the commands returned from the above mapping

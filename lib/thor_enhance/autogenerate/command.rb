@@ -19,14 +19,15 @@ module ThorEnhance
       FOOTER_ERB = "#{File.dirname(__FILE__)}/templates/footer.rb.erb"
       FOOTER_TEMPLATE = ERB.new(File.read(FOOTER_ERB))
 
-      attr_reader :leaf, :name, :basename, :child_commands, :parent
+      attr_reader :root, :leaf, :name, :basename, :child_commands, :parent
 
-      def initialize(leaf:, name:, basename:, parent: nil)
+      def initialize(leaf:, name:, basename:, root: , parent: nil)
         @leaf = leaf
         @name = name
         @basename = basename
         @child_commands = []
         @parent = parent
+        @root = root
         initialize_children!
       end
 
@@ -34,7 +35,7 @@ module ThorEnhance
         return unless children?
 
         @child_commands = leaf.children.map do |name, child_leaf|
-          self.class.new(leaf: child_leaf, name: name, basename: basename, parent: self)
+          self.class.new(root: root, leaf: child_leaf, name: name, basename: basename, parent: self)
         end
       end
 
@@ -58,6 +59,7 @@ module ThorEnhance
             children_descriptors: children_descriptors,
             class_options_erb: class_options_erb,
             command: command,
+            command_source: command_source,
             custom_headers: custom_headers,
             default_command: default_command,
             default_command_string: default_command_string,
@@ -72,6 +74,15 @@ module ThorEnhance
           }
           COMMAND_TEMPLATE.result_with_hash(params)
         end
+      end
+
+      def command_source
+        file, line = leaf.base.instance_method(name).source_location
+        # this will return the relative location of the command source line
+        relative_source = file.split("/") - root.split("/")
+        relative_link = "/#{relative_source.join("/")}#L#{line}"
+
+        "Source code for this command can be found at: [#{leaf.base.name}##{name}](#{relative_link})"
       end
 
       def footer_erb

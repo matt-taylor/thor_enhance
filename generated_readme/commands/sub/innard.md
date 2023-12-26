@@ -7,6 +7,10 @@ Wow, This longer description will take precedence over the desc above. This is w
 # Base command for `innard`
 thor_enhance sub innard <options>
 ```
+
+## Command Source
+Source code for this command can be found at: [ThorEnhance::Sample::SubCommand#innard](/lib/thor_enhance/sample.rb#L20)
+
 ## When Should I Use This?
 
 Use sub command task to validate that subocommands work as expected

@@ -7,6 +7,10 @@ Command outputs what Optimus prime is thniking
 # Base command for `autobots`
 thor_enhance autobots <options>
 ```
+
+## Command Source
+Source code for this command can be found at: [ThorEnhance::Sample#autobots](/lib/thor_enhance/sample.rb#L52)
+
 ## When Should I Use This?
 
 Do you ever feel angry about how powerful the Decepticons are compared to the Autobots? It seems unfair.

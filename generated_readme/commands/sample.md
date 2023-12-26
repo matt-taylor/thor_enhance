@@ -7,6 +7,10 @@ This Sample command does a lot of nothing
 # Base command for `sample`
 thor_enhance sample <options>
 ```
+
+## Command Source
+Source code for this command can be found at: [ThorEnhance::Sample#sample](/lib/thor_enhance/sample.rb#L39)
+
 #### How Does This Help
 
 Honestly, this does not help at all
