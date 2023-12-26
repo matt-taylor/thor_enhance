@@ -33,9 +33,13 @@ end
 
 class MyTestClass < Thor
   thor_enhance_allow!
+  class_option :verbose, type: :boolean, desc: "Verbose level", classify: "allowed"
+
 
   class SubCommand < Thor
     thor_enhance_allow!
+
+    class_option :verbose, type: :boolean, desc: "Verbose level", classify: "allowed"
 
     desc "innard", "Innard testing task"
     example "innard -t something", desc: "some imporatn description"

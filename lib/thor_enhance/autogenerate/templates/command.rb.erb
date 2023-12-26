@@ -1,11 +1,13 @@
 # <%= title.to_s.titlecase %>
 
+<%= command_source %>
+
 ## Description
 <%= command.long_description || command.description %>
 
 ```bash
 # Base command for `<%= command.usage %>`
-<%= basename_string %>
+<%= all_bases.join(" <options> \n") %> <options>
 ```
 
 <%= custom_headers %>
@@ -36,14 +38,17 @@
 <% children_descriptors.each do |child| %>
 ### [<%= child[:title]%>](<%= child[:link] %>)
 
+<%= "**Default Command** <br>" if child[:default_command] %>
 <%= child[:description] %>
 
 ```bash
-<%= child[:basename_string]%> <options>
+<%= child[:all_bases].join(" <options> \n") %> <options>
 <%= child[:examples].map { _1 }.join("\n") %>
 ```
 <% end %>
 <% end %>
+
+<%= class_options_erb %>
 ---
 
 <%= footer_erb %>
