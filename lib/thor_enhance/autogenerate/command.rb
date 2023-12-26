@@ -83,8 +83,12 @@ module ThorEnhance
         return nil if children?
 
         file, line = leaf.base.instance_method(name).source_location
+        # This value returns the length of the root up to generated_readme
+        # This allows us to understand how many directories to remove from the local `source_location`
+        remove_length = root.split("/")[0..-2].length
+
         # this will return the relative location of the command source line
-        relative_source = file.split("/") - root.split("/")
+        relative_source = file.split("/")[remove_length..-1]
         relative_link = "/#{relative_source.join("/")}#L#{line}"
         "Source code for this command can be found at: [#{leaf.base.name}##{name}](#{relative_link})"
       end
