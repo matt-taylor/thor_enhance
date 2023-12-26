@@ -1,6 +1,6 @@
 # Subcommand For Sample Class
 
-Source code for this command can be found at: [ThorEnhance::Sample#sub](/usr/local/bundle/gems/thor-1.3.0/lib/thor.rb#L334)
+
 
 ## Description
 Thor sub command validation for thor enhance

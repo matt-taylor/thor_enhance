@@ -77,11 +77,15 @@ module ThorEnhance
       end
 
       def command_source
+        # if children exists, it is a subcommand
+        # source location for a command does not accurately find the correct source
+        # Return nil and skip output
+        return nil if children?
+
         file, line = leaf.base.instance_method(name).source_location
         # this will return the relative location of the command source line
         relative_source = file.split("/") - root.split("/")
         relative_link = "/#{relative_source.join("/")}#L#{line}"
-
         "Source code for this command can be found at: [#{leaf.base.name}##{name}](#{relative_link})"
       end
 
