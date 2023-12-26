@@ -56,6 +56,12 @@ thor_enhance sample --boolean
 # Required: false
 --boolean | -b | --no-boolean
 
+# What: How many times to output text
+# Type: numeric
+# Required: false
+# Allowed Inputs: [1, 2, 3, 4, 5]
+--count
+
 ```
 
 </details>
