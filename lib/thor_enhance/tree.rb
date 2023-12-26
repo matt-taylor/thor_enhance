@@ -45,10 +45,6 @@ module ThorEnhance
       end
     end
 
-    def class_options
-      base.class_options
-    end
-
     def children?
       children.count > 0
     end

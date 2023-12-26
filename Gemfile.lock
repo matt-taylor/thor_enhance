@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    thor_enhance (0.5.0)
+    thor_enhance (0.5.1)
       activesupport (>= 6)
       thor (~> 1.3)
 
